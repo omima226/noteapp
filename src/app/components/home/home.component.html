@@ -1,0 +1,86 @@
+<header class="w-50 mx-auto py-5" *ngIf="notes.length">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Search...</mat-label>
+    <input matInput type="text" [(ngModel)]="value" index as index />
+    <button
+      *ngIf="value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="value = ''"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</header>
+
+<section class="pt-3">
+  <button
+    class="float-end"
+    (click)="addData()"
+    mat-raised-button
+    color="primary"
+  >
+    Add Note
+  </button>
+
+  <p class="clearfix"></p>
+
+  <div class="row py-4 row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+    <div
+      class="col"
+      *ngFor="
+        let note of notes | filter : value;
+        index as index;
+        trackBy: trackFn
+      "
+    >
+      <div class="card shadow">
+        <button
+          class="position-absolute end-0 top-0"
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="setData(note)">
+            <mat-icon>edit</mat-icon>
+            <span>Update</span>
+          </button>
+          <button mat-menu-item [swal]="deleteSwal">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <swal
+  #deleteSwal
+  title="Delete {{ note.title }}?"
+  text="This cannot be undone"
+  icon="question"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="deleteItem(note.id ,index )">
+</swal>
+
+        </mat-menu>
+
+        <swal
+          #deleteSwal
+          title="Delete {{ note.title }}?"
+          text="This cannot be undone"
+          icon="question"
+          [showCancelButton]="true"
+          [focusCancel]="true"
+          (confirm)="deleteItem(note._id, index)"
+        >
+        </swal>
+
+        <div class="card-body">
+          <h3 class="card-title h5">{{ note.title }}</h3>
+          <p class="text-muted small">{{ note.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

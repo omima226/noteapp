@@ -1,0 +1,63 @@
+<section>
+  <div class="row g-0 w-100 shadow border rounded overflow-hidden">
+    <div class="col-lg-8 col-md-7 d-none d-md-block">
+      <div class="image"></div>
+    </div>
+
+    <div class="col-lg-4 col-md-5 align-self-center">
+      <form class="p-4" [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+        <h1 class="text-center display-4 text-uppercase">
+          <span class="fletter">L</span>ogIn
+        </h1>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label class="label-place">Email</mat-label>
+          <input
+            type="email"
+            matInput
+            formControlName="email"
+            placeholder="Ex. omimagamal31@gmail.com"
+          />
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          [disabled]="loginForm.invalid"
+          mat-raised-button
+          color="primary"
+          class="w-100"
+        >
+          LogIn
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
